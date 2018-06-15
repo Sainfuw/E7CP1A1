@@ -5,7 +5,7 @@ inventario = { 'Notebooks' => 4, 'PC Escritorio' => 6,
 def agregar(hash)
   print 'Ingrese producto y valor separados por una coma: '
   key = gets.chomp
-  product = key.split(', ')
+  product = key.split(',').map(&:strip)
   hash[product[0]] = product[1].to_i
   puts "Producto #{product} agregado"
 end
@@ -13,8 +13,7 @@ end
 def borrar(hash)
   print 'Ingrese el nombre del producto a Eliminar: '
   key = gets.chomp
-  hash.delete(key)
-  puts 'Producto eliminado'
+  hash.delete(key) { |i| puts "#{i} no se encuentra en el inventario" }
 end
 
 def actualizar(hash)
@@ -26,7 +25,7 @@ def actualizar(hash)
 end
 
 def stock(hash)
-  puts hash
+  puts hash.values.inject(0) { |sum, i| sum + i }
 end
 
 def mayor(hash)
